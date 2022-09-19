@@ -41,13 +41,11 @@ class StringCalculator {
 		
 		for (String del: dels)
 		
-			num2 = num2.replaceAll(String.format("(?<=^)//|(,|\n|%s|\\[|\\])(?!$)", del), " ").trim();
+			num2 = num2.replaceAll(String.format("(?<=^)//|(,|\\\\n|%s|\\[|\\])(?!$)", del), " ").trim();
 		
 		int sum = 0;
 		
 		for (String n : num2.split(" ")) {
-			
-			System.out.println(n);
 			
 			if(n.length() > 0 && Character.isDigit(n.charAt(n.length() - 1))) {
 				

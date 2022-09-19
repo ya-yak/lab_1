@@ -20,7 +20,7 @@ public class main {
 
 class StringCalculator {
 	
-	String pattern = "([0-9]+(?=,|\\n?))+|((,|\\n){2,})";
+	String pattern = "([0-9]+(?=,?|\\\\n?))+|((,|\\\\n){2,})";
 	
 	Pattern pat = Pattern.compile(pattern);
 	
@@ -30,6 +30,8 @@ class StringCalculator {
 	
 	public int add(String numbers)
 	{
+		
+		System.out.println(numbers);
 		
 		Matcher m = pat.matcher(numbers);
 		
