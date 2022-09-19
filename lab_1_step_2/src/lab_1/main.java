@@ -2,12 +2,17 @@ package lab_1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.*;
+import java.util.Scanner;
 
 public class main {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(String.valueOf(new StringCalculator().add("")));
+		Scanner sc = new Scanner(System.in);
+		
+		String inp = sc.nextLine();
+		
+		System.out.println(String.valueOf(new StringCalculator().add(inp)));
 		
 	}
 	

@@ -1,13 +1,18 @@
 package lab_1_step_5;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.*;
 
 public class main {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(String.valueOf(new StringCalculator().add("//as\n1,2as3,4")));
+		Scanner sc = new Scanner(System.in);
+		
+		String inp = sc.nextLine();
+		
+		System.out.println(String.valueOf(new StringCalculator().add(inp)));
 		
 	}
 	

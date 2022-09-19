@@ -1,13 +1,18 @@
 package lab_1_step_8;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.*;
 
 public class main {
 	
 	public static void main(String[] args) {
 		
-		System.out.println(String.valueOf(new StringCalculator().add("//[as][b]\n1000as999b1001")));
+		Scanner sc = new Scanner(System.in);
+		
+		String inp = sc.nextLine();
+		
+		System.out.println(String.valueOf(new StringCalculator().add(inp)));
 		
 	}
 	
@@ -36,11 +41,13 @@ class StringCalculator {
 		
 		for (String del: dels)
 		
-			num2 = num2.replaceAll(String.format("//|(,|\\n|%s|\\[|\\])(?!$)", del), " ").trim();
+			num2 = num2.replaceAll(String.format("(?<=^)//|(,|\n|%s|\\[|\\])(?!$)", del), " ").trim();
 		
 		int sum = 0;
 		
 		for (String n : num2.split(" ")) {
+			
+			System.out.println(n);
 			
 			if(n.length() > 0 && Character.isDigit(n.charAt(n.length() - 1))) {
 				
