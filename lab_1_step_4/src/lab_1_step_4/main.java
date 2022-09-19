@@ -27,7 +27,7 @@ class StringCalculator {
 	public int add(String numbers)
 	{
 		
-		String pattern0 = "(?<=//).+(?=\\n)";
+		String pattern0 = "(?<=//).+(?=\\\\n)";
 		
 		Pattern pat0 = Pattern.compile(pattern0);
 		
@@ -37,7 +37,7 @@ class StringCalculator {
 		
 		String del = m0.group(0);
 		
-		String num2 = numbers.replaceAll(String.format("//|(,|\\n|%s)(?!$)", del), " ").trim();
+		String num2 = numbers.replaceAll(String.format("//|(,|\\\\n|%s)(?!$)", del), " ").trim();
 		
 		int sum = 0;
 		

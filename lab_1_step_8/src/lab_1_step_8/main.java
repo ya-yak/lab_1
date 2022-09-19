@@ -10,6 +10,8 @@ public class main {
 		
 		Scanner sc = new Scanner(System.in);
 		
+		System.out.println("Enter numbers: ");
+		
 		String inp = sc.nextLine();
 		
 		System.out.println(String.valueOf(new StringCalculator().add(inp)));
@@ -20,38 +22,74 @@ public class main {
 
 class StringCalculator {
 	
-	
-	
 	public StringCalculator(){}
 	
-	public int add(String numbers)
-	{
+	private String pattern0, num2, prt;
+	
+	private Pattern pat0;
+	
+	private Matcher m0;
+	
+	private List<String> dels;
+	
+	private int sum;
+	
+	public int add(String numbers) {
 		
-		String pattern0 = "((?<=\\[)[^\\[\\]]+(?=\\]))";
+		//-- GET TEMPLATE OF DELIMITERS
 		
-		Pattern pat0 = Pattern.compile(pattern0);
+		pattern0 = "((?<=\\[)[^\\[\\]]+(?=\\]))";
 		
-		Matcher m0 = pat0.matcher(numbers);
+		pat0 = Pattern.compile(pattern0);
 		
-		List<String> dels = new ArrayList<String>();
+		m0 = pat0.matcher(numbers.replace(numbers.replaceAll("//.+\\\\n", ""), ""));
+		
+		//-- GET DELIMITERS --
+		
+		dels = new ArrayList<String>();
 		
 		while (m0.find()) {dels.add(m0.group());}
 		
-		String num2 = numbers;
+		//-- REPLACE DELIMITERS WITH ',' --
 		
-		for (String del: dels)
+		num2 = numbers;
 		
-			num2 = num2.replaceAll(String.format("(?<=^)//|(,|\\\\n|%s|\\[|\\])(?!$)", del), " ").trim();
+		num2 = num2.replaceAll("//.+\\\\n", "");
 		
-		int sum = 0;
+		num2 = num2.replaceAll("(?<=^)//|(,|\\\\n|\\[|\\])(?!$)", " ");
+		
+		for (String del: dels) {
+			
+			//-- REPLACE UNSAFE CHARACTERS --
+			
+			if (del.contains("*")) del = del.replace("*", "\\*");
+			if (del.contains("(")) del = del.replace("(", "\\(");
+			if (del.contains(")")) del = del.replace(")", "\\)");
+			if (del.contains("{")) del = del.replace("{", "\\{");
+			if (del.contains("}")) del = del.replace("}", "\\}");
+			if (del.contains("|")) del = del.replace("|", "\\|");
+			if (del.contains("&")) del = del.replace("&", "\\&");
+			if (del.contains("?")) del = del.replace("?", "\\?");
+			if (del.contains("+")) del = del.replace("+", "\\+");
+			if (del.contains("^")) del = del.replace("^", "\\^");
+		
+			num2 = num2.replaceAll("(?<=[0-9])" + del + "(?=[0-9])", " ");
+		
+		}
+		
+		num2 = num2.trim();
+		
+		//-- GET SUM --
+		
+		sum = 0;
 		
 		for (String n : num2.split(" ")) {
 			
-			if(n.length() > 0 && Character.isDigit(n.charAt(n.length() - 1))) {
+			if (n.length() > 0 && n.replaceAll("[0-9]+", "").length() == 0) {
 				
-				if(Integer.parseInt(n) < 0) {
+				if (Integer.parseInt(n) < 0) {
 					
-					String prt = num2.replaceAll("(?<!-)[0-9]+", "");
+					prt = num2.replaceAll("(?<!-)[0-9]+", "");
 					
 					throw new ArithmeticException("sorry negative are not allowed :( " + prt);
 					
@@ -61,9 +99,7 @@ class StringCalculator {
 				
 			} else {
 				
-				sum = -1;
-						
-				break;
+				throw new ArithmeticException("sorry a mistake found in your numbers :(");
 				
 			}
 			
