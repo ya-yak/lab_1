@@ -42,7 +42,7 @@ class StringCalculator {
 		
 		pat0 = Pattern.compile(pattern0);
 		
-		m0 = pat0.matcher(numbers.replace(numbers.replaceAll("//.+\\\\n", ""), ""));
+		m0 = pat0.matcher(numbers.replace(numbers.replaceAll("//.+]\\\\n", ""), ""));
 		
 		//-- GET DELIMITERS --
 		
@@ -54,14 +54,17 @@ class StringCalculator {
 		
 		num2 = numbers;
 		
-		num2 = num2.replaceAll("//.+\\\\n", "");
+		num2 = num2.replaceAll("//.+]\\\\n", "");
 		
 		num2 = num2.replaceAll("(?<=^)//|(,|\\\\n|\\[|\\])(?!$)", " ");
+		
+		num2 = num2.replaceAll("\\\\", "\\[s");
 		
 		for (String del: dels) {
 			
 			//-- REPLACE UNSAFE CHARACTERS --
 			
+			if (del.contains("\\")) del = del.replace("\\", "\\[s");
 			if (del.contains("*")) del = del.replace("*", "\\*");
 			if (del.contains("(")) del = del.replace("(", "\\(");
 			if (del.contains(")")) del = del.replace(")", "\\)");
@@ -72,6 +75,7 @@ class StringCalculator {
 			if (del.contains("?")) del = del.replace("?", "\\?");
 			if (del.contains("+")) del = del.replace("+", "\\+");
 			if (del.contains("^")) del = del.replace("^", "\\^");
+			if (del.contains(".")) del = del.replace(".", "\\.");
 		
 			num2 = num2.replaceAll("(?<=[0-9])" + del + "(?=[0-9])", " ");
 		
@@ -85,7 +89,7 @@ class StringCalculator {
 		
 		for (String n : num2.split(" ")) {
 			
-			if (n.length() > 0 && n.replaceAll("[0-9]+", "").length() == 0) {
+			if (n.length() > 0 && n.replaceAll("[-0-9]+", "").length() == 0) {
 				
 				if (Integer.parseInt(n) < 0) {
 					
